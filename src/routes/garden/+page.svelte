@@ -2,7 +2,7 @@
 	// Modules
 	import { onMount } from 'svelte'
 	import { io } from 'socket.io-client'
-	import { variables } from '$lib/variables'
+	import { PUBLIC_API } from '$env/static/public'
 	import API from '$utils/APIModule'
 	import { addToast } from '$stores/toasts'
 	import Chart from 'chart.js/auto'
@@ -34,7 +34,7 @@
 	let selected = 0
 
 	function webSocket() {
-		const socket = io(`${variables.API}`).connect()
+		const socket = io(`${PUBLIC_API}`).connect()
 		socket.on('garden/metrics', (metric: GardenMetric) => {
 			// Insert graph
 			insertDataGraph(metric, metric.agent)
@@ -168,9 +168,9 @@
 		try {
 			// Get data
 			const dataFetch = await Promise.allSettled([
-				API.fetchGetData(`${variables.API}/api/garden/get_plants`),
-				API.fetchGetData(`${variables.API}/api/agents/get_agents/garden`),
-				API.fetchGetData(`${variables.API}/api/garden/get_metrics?limit=20&latest=true`),
+				API.fetchGetData(`${PUBLIC_API}/api/garden/get_plants`),
+				API.fetchGetData(`${PUBLIC_API}/api/agents/get_agents/garden`),
+				API.fetchGetData(`${PUBLIC_API}/api/garden/get_metrics?limit=20&latest=true`),
 			]).then((data) => {
 				return {
 					plants: data[0],

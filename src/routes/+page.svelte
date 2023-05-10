@@ -4,7 +4,7 @@
 	import GlossaryCard from '$components/Glossary/GlossaryCard.svelte'
 	import Separator from '$components/Separator.svelte'
 	import TaskComponent from '$components/Task.svelte'
-	import { variables } from '$lib/variables'
+	import { PUBLIC_API } from '$env/static/public'
 	import type { Task } from '$models/web/task.model'
 	import { addToast } from '$stores/toasts'
 	import API from '$utils/APIModule'
@@ -47,7 +47,7 @@
 
 	onMount(async () => {
 		try {
-			const dataFetch = await API.fetchGetData(`${variables.API}/api/tasks/get_tasks`)
+			const dataFetch = await API.fetchGetData(`${PUBLIC_API}/api/tasks/get_tasks`)
 			tasks = dataFetch.body
 		} catch (err: any) {
 			addToast({
